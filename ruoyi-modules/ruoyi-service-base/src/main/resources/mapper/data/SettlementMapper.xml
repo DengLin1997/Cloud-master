@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.data.mapper.SettlementMapper">
+    
+    <resultMap type="Settlement" id="SettlementResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="number"    column="number"    />
+        <result property="initialAmount"    column="initial_amount"    />
+        <result property="currentBalance"    column="current_balance"    />
+        <result property="remarks"    column="remarks"    />
+    </resultMap>
+
+    <sql id="selectSettlementVo">
+        select id, name, number, initial_amount, current_balance, remarks from t_settlement
+    </sql>
+
+    <select id="selectSettlementList" parameterType="Settlement" resultMap="SettlementResult">
+        <include refid="selectSettlementVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="number != null "> and number = #{number}</if>
+            <if test="initialAmount != null "> and initial_amount = #{initialAmount}</if>
+            <if test="currentBalance != null "> and current_balance = #{currentBalance}</if>
+            <if test="remarks != null  and remarks != ''"> and remarks = #{remarks}</if>
+        </where>
+    </select>
+    
+    <select id="selectSettlementById" parameterType="Long" resultMap="SettlementResult">
+        <include refid="selectSettlementVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSettlement" parameterType="Settlement" useGeneratedKeys="true" keyProperty="id">
+        insert into t_settlement
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="number != null">number,</if>
+            <if test="initialAmount != null">initial_amount,</if>
+            <if test="currentBalance != null">current_balance,</if>
+            <if test="remarks != null">remarks,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="number != null">#{number},</if>
+            <if test="initialAmount != null">#{initialAmount},</if>
+            <if test="currentBalance != null">#{currentBalance},</if>
+            <if test="remarks != null">#{remarks},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSettlement" parameterType="Settlement">
+        update t_settlement
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="number != null">number = #{number},</if>
+            <if test="initialAmount != null">initial_amount = #{initialAmount},</if>
+            <if test="currentBalance != null">current_balance = #{currentBalance},</if>
+            <if test="remarks != null">remarks = #{remarks},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSettlementById" parameterType="Long">
+        delete from t_settlement where id = #{id}
+    </delete>
+
+    <delete id="deleteSettlementByIds" parameterType="String">
+        delete from t_settlement where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.eims.mapper.PaymentDocMapper">
+    
+    <resultMap type="PaymentDoc" id="PaymentDocResult">
+        <result property="id"    column="id"    />
+        <result property="purchaseId"    column="purchase_id"    />
+        <result property="paymentDate"    column="payment_date"    />
+        <result property="supplierName"    column="supplier_name"    />
+        <result property="operator"    column="operator"    />
+        <result property="state"    column="state"    />
+    </resultMap>
+
+    <sql id="selectPaymentDocVo">
+        select id, purchase_id, payment_date, supplier_name, operator, state from t_payment_doc
+    </sql>
+
+    <select id="selectPaymentDocList" parameterType="PaymentDoc" resultMap="PaymentDocResult">
+        <include refid="selectPaymentDocVo"/>
+        <where>  
+            <if test="purchaseId != null  and purchaseId != ''"> and purchase_id = #{purchaseId}</if>
+            <if test="paymentDate != null "> and payment_date = #{paymentDate}</if>
+            <if test="supplierName != null  and supplierName != ''"> and supplier_name like concat('%', #{supplierName}, '%')</if>
+            <if test="operator != null  and operator != ''"> and operator = #{operator}</if>
+            <if test="state != null "> and state = #{state}</if>
+        </where>
+    </select>
+    
+    <select id="selectPaymentDocById" parameterType="Long" resultMap="PaymentDocResult">
+        <include refid="selectPaymentDocVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertPaymentDoc" parameterType="PaymentDoc">
+        insert into t_payment_doc
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="purchaseId != null">purchase_id,</if>
+            <if test="paymentDate != null">payment_date,</if>
+            <if test="supplierName != null">supplier_name,</if>
+            <if test="operator != null">operator,</if>
+            <if test="state != null">state,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="purchaseId != null">#{purchaseId},</if>
+            <if test="paymentDate != null">#{paymentDate},</if>
+            <if test="supplierName != null">#{supplierName},</if>
+            <if test="operator != null">#{operator},</if>
+            <if test="state != null">#{state},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePaymentDoc" parameterType="PaymentDoc">
+        update t_payment_doc
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="purchaseId != null">purchase_id = #{purchaseId},</if>
+            <if test="paymentDate != null">payment_date = #{paymentDate},</if>
+            <if test="supplierName != null">supplier_name = #{supplierName},</if>
+            <if test="operator != null">operator = #{operator},</if>
+            <if test="state != null">state = #{state},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePaymentDocById" parameterType="Long">
+        delete from t_payment_doc where id = #{id}
+    </delete>
+
+    <delete id="deletePaymentDocByIds" parameterType="String">
+        delete from t_payment_doc where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+<!--    selectPaymentDocByNumber-->
+    <select id="selectPaymentDocByNumber" parameterType="String" resultMap="PaymentDocResult">
+        <include refid="selectPaymentDocVo"/>
+        where purchase_id = #{purchaseId}
+    </select>
+</mapper>

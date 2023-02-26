@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.eims.mapper.PurchaseReturnMapper">
+    
+    <resultMap type="PurchaseReturn" id="PurchaseReturnResult">
+        <result property="id"    column="id"    />
+        <result property="supplierName"    column="supplier_name"    />
+        <result property="number"    column="number"    />
+        <result property="information"    column="information"    />
+        <result property="documentDate"    column="document_date"    />
+        <result property="operator"    column="operator"    />
+        <result property="returnMoney"    column="return_money"    />
+        <result property="actualMoney"    column="actual_money"    />
+        <result property="state"    column="state"    />
+        <result property="remarks"    column="remarks"    />
+        <result property="discount"    column="discount"    />
+        <result property="settlementAccount"    column="settlement_account"    />
+        <result property="arrears"    column="arrears"    />
+        <result property="warehouseId"    column="warehouse_id"    />
+    </resultMap>
+
+    <sql id="selectPurchaseReturnVo">
+        select id, supplier_name, number, information, document_date, operator, return_money, actual_money, state, remarks, discount, settlement_account, arrears, warehouse_id from t_purchase_return
+    </sql>
+
+    <select id="selectPurchaseReturnList" parameterType="PurchaseReturn" resultMap="PurchaseReturnResult">
+        <include refid="selectPurchaseReturnVo"/>
+        <where>  
+            <if test="supplierName != null  and supplierName != ''"> and supplier_name like concat('%', #{supplierName}, '%')</if>
+            <if test="number != null  and number != ''"> and number = #{number}</if>
+            <if test="information != null  and information != ''"> and information = #{information}</if>
+            <if test="documentDate != null "> and document_date = #{documentDate}</if>
+            <if test="operator != null  and operator != ''"> and operator = #{operator}</if>
+            <if test="returnMoney != null "> and return_money = #{returnMoney}</if>
+            <if test="actualMoney != null "> and actual_money = #{actualMoney}</if>
+            <if test="state != null "> and state = #{state}</if>
+            <if test="remarks != null  and remarks != ''"> and remarks = #{remarks}</if>
+            <if test="discount != null "> and discount = #{discount}</if>
+            <if test="settlementAccount != null  and settlementAccount != ''"> and settlement_account = #{settlementAccount}</if>
+            <if test="arrears != null "> and arrears = #{arrears}</if>
+            <if test="warehouseId != null "> and warehouse_id = #{warehouseId}</if>
+        </where>
+    </select>
+    
+    <select id="selectPurchaseReturnById" parameterType="Long" resultMap="PurchaseReturnResult">
+        <include refid="selectPurchaseReturnVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertPurchaseReturn" parameterType="PurchaseReturn" useGeneratedKeys="true" keyProperty="id">
+        insert into t_purchase_return
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="supplierName != null">supplier_name,</if>
+            <if test="number != null">number,</if>
+            <if test="information != null">information,</if>
+            <if test="documentDate != null">document_date,</if>
+            <if test="operator != null">operator,</if>
+            <if test="returnMoney != null">return_money,</if>
+            <if test="actualMoney != null">actual_money,</if>
+            <if test="state != null">state,</if>
+            <if test="remarks != null">remarks,</if>
+            <if test="discount != null">discount,</if>
+            <if test="settlementAccount != null">settlement_account,</if>
+            <if test="arrears != null">arrears,</if>
+            <if test="warehouseId != null">warehouse_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="supplierName != null">#{supplierName},</if>
+            <if test="number != null">#{number},</if>
+            <if test="information != null">#{information},</if>
+            <if test="documentDate != null">#{documentDate},</if>
+            <if test="operator != null">#{operator},</if>
+            <if test="returnMoney != null">#{returnMoney},</if>
+            <if test="actualMoney != null">#{actualMoney},</if>
+            <if test="state != null">#{state},</if>
+            <if test="remarks != null">#{remarks},</if>
+            <if test="discount != null">#{discount},</if>
+            <if test="settlementAccount != null">#{settlementAccount},</if>
+            <if test="arrears != null">#{arrears},</if>
+            <if test="warehouseId != null">#{warehouseId},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePurchaseReturn" parameterType="PurchaseReturn">
+        update t_purchase_return
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="supplierName != null">supplier_name = #{supplierName},</if>
+            <if test="number != null">number = #{number},</if>
+            <if test="information != null">information = #{information},</if>
+            <if test="documentDate != null">document_date = #{documentDate},</if>
+            <if test="operator != null">operator = #{operator},</if>
+            <if test="returnMoney != null">return_money = #{returnMoney},</if>
+            <if test="actualMoney != null">actual_money = #{actualMoney},</if>
+            <if test="state != null">state = #{state},</if>
+            <if test="remarks != null">remarks = #{remarks},</if>
+            <if test="discount != null">discount = #{discount},</if>
+            <if test="settlementAccount != null">settlement_account = #{settlementAccount},</if>
+            <if test="arrears != null">arrears = #{arrears},</if>
+            <if test="warehouseId != null">warehouse_id = #{warehouseId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePurchaseReturnById" parameterType="Long">
+        delete from t_purchase_return where id = #{id}
+    </delete>
+
+    <delete id="deletePurchaseReturnByIds" parameterType="String">
+        delete from t_purchase_return where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

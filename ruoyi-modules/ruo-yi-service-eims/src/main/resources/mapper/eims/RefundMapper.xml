@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.eims.mapper.RefundMapper">
+    
+    <resultMap type="Refund" id="RefundResult">
+        <result property="id"    column="id"    />
+        <result property="returnId"    column="return_id"    />
+        <result property="actualMoney"    column="actual_money"    />
+        <result property="settlementAccount"    column="settlement_account"    />
+        <result property="returnTime"    column="return_time"    />
+        <result property="state"    column="state"    />
+    </resultMap>
+
+    <sql id="selectRefundVo">
+        select id, return_id, actual_money, settlement_account, return_time, state from t_refund
+    </sql>
+
+    <select id="selectRefundList" parameterType="Refund" resultMap="RefundResult">
+        <include refid="selectRefundVo"/>
+        <where>  
+            <if test="returnId != null  and returnId != ''"> and return_id = #{returnId}</if>
+            <if test="actualMoney != null "> and actual_money = #{actualMoney}</if>
+            <if test="settlementAccount != null  and settlementAccount != ''"> and settlement_account = #{settlementAccount}</if>
+            <if test="returnTime != null "> and return_time = #{returnTime}</if>
+            <if test="state != null "> and state = #{state}</if>
+        </where>
+    </select>
+    
+    <select id="selectRefundById" parameterType="Long" resultMap="RefundResult">
+        <include refid="selectRefundVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertRefund" parameterType="Refund" useGeneratedKeys="true" keyProperty="id">
+        insert into t_refund
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="returnId != null">return_id,</if>
+            <if test="actualMoney != null">actual_money,</if>
+            <if test="settlementAccount != null">settlement_account,</if>
+            <if test="returnTime != null">return_time,</if>
+            <if test="state != null">state,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="returnId != null">#{returnId},</if>
+            <if test="actualMoney != null">#{actualMoney},</if>
+            <if test="settlementAccount != null">#{settlementAccount},</if>
+            <if test="returnTime != null">#{returnTime},</if>
+            <if test="state != null">#{state},</if>
+         </trim>
+    </insert>
+
+    <update id="updateRefund" parameterType="Refund">
+        update t_refund
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="returnId != null">return_id = #{returnId},</if>
+            <if test="actualMoney != null">actual_money = #{actualMoney},</if>
+            <if test="settlementAccount != null">settlement_account = #{settlementAccount},</if>
+            <if test="returnTime != null">return_time = #{returnTime},</if>
+            <if test="state != null">state = #{state},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteRefundById" parameterType="Long">
+        delete from t_refund where id = #{id}
+    </delete>
+
+    <delete id="deleteRefundByIds" parameterType="String">
+        delete from t_refund where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

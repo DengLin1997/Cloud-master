@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.data.mapper.StockMapper">
+    
+    <resultMap type="Stock" id="StockResult">
+        <result property="id"    column="id"    />
+        <result property="barCode"    column="bar_code"    />
+        <result property="name"    column="name"    />
+        <result property="specifications"    column="specifications"    />
+        <result property="model"    column="model"    />
+        <result property="colour"    column="colour"    />
+        <result property="category"    column="category"    />
+        <result property="company"    column="company"    />
+        <result property="purchasePrice"    column="purchase_price"    />
+        <result property="initialInventory"    column="initial_inventory"    />
+        <result property="stock"    column="stock"    />
+        <result property="stockMoney"    column="stock_money"    />
+        <result property="flowingWater"    column="flowing_water"    />
+    </resultMap>
+
+    <sql id="selectStockVo">
+        select id, bar_code, name, specifications, model, colour, category, company, purchase_price, initial_inventory, stock, stock_money, flowing_water from t_stock
+    </sql>
+
+    <select id="selectStockList" parameterType="Stock" resultMap="StockResult">
+        <include refid="selectStockVo"/>
+        <where>  
+            <if test="barCode != null  and barCode != ''"> and bar_code = #{barCode}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="specifications != null  and specifications != ''"> and specifications = #{specifications}</if>
+            <if test="model != null  and model != ''"> and model = #{model}</if>
+            <if test="colour != null  and colour != ''"> and colour = #{colour}</if>
+            <if test="category != null  and category != ''"> and category = #{category}</if>
+            <if test="company != null  and company != ''"> and company = #{company}</if>
+            <if test="purchasePrice != null "> and purchase_price = #{purchasePrice}</if>
+            <if test="initialInventory != null "> and initial_inventory = #{initialInventory}</if>
+            <if test="stock != null "> and stock = #{stock}</if>
+            <if test="stockMoney != null  and stockMoney != ''"> and stock_money = #{stockMoney}</if>
+            <if test="flowingWater != null  and flowingWater != ''"> and flowing_water = #{flowingWater}</if>
+        </where>
+    </select>
+    
+    <select id="selectStockById" parameterType="Long" resultMap="StockResult">
+        <include refid="selectStockVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertStock" parameterType="Stock" useGeneratedKeys="true" keyProperty="id">
+        insert into t_stock
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="barCode != null">bar_code,</if>
+            <if test="name != null">name,</if>
+            <if test="specifications != null">specifications,</if>
+            <if test="model != null">model,</if>
+            <if test="colour != null">colour,</if>
+            <if test="category != null">category,</if>
+            <if test="company != null">company,</if>
+            <if test="purchasePrice != null">purchase_price,</if>
+            <if test="initialInventory != null">initial_inventory,</if>
+            <if test="stock != null">stock,</if>
+            <if test="stockMoney != null">stock_money,</if>
+            <if test="flowingWater != null">flowing_water,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="barCode != null">#{barCode},</if>
+            <if test="name != null">#{name},</if>
+            <if test="specifications != null">#{specifications},</if>
+            <if test="model != null">#{model},</if>
+            <if test="colour != null">#{colour},</if>
+            <if test="category != null">#{category},</if>
+            <if test="company != null">#{company},</if>
+            <if test="purchasePrice != null">#{purchasePrice},</if>
+            <if test="initialInventory != null">#{initialInventory},</if>
+            <if test="stock != null">#{stock},</if>
+            <if test="stockMoney != null">#{stockMoney},</if>
+            <if test="flowingWater != null">#{flowingWater},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStock" parameterType="Stock">
+        update t_stock
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="barCode != null">bar_code = #{barCode},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="specifications != null">specifications = #{specifications},</if>
+            <if test="model != null">model = #{model},</if>
+            <if test="colour != null">colour = #{colour},</if>
+            <if test="category != null">category = #{category},</if>
+            <if test="company != null">company = #{company},</if>
+            <if test="purchasePrice != null">purchase_price = #{purchasePrice},</if>
+            <if test="initialInventory != null">initial_inventory = #{initialInventory},</if>
+            <if test="stock != null">stock = #{stock},</if>
+            <if test="stockMoney != null">stock_money = #{stockMoney},</if>
+            <if test="flowingWater != null">flowing_water = #{flowingWater},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteStockById" parameterType="Long">
+        delete from t_stock where id = #{id}
+    </delete>
+
+    <delete id="deleteStockByIds" parameterType="String">
+        delete from t_stock where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+<!--    Stock selectStockByBarCode(String str);-->
+    <select id="selectStockByBarCode" parameterType="String" resultMap="StockResult">
+        <include refid="selectStockVo"/>
+        where bar_code = #{str}
+    </select>
+</mapper>

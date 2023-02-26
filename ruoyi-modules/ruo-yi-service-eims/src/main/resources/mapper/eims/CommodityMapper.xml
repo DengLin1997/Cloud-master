@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.eims.mapper.CommodityMapper">
+    
+    <resultMap type="Commodity" id="CommodityResult">
+        <result property="id"    column="id"    />
+        <result property="barCode"    column="bar_code"    />
+        <result property="name"    column="name"    />
+        <result property="specifications"    column="specifications"    />
+        <result property="model"    column="model"    />
+        <result property="colour"    column="colour"    />
+        <result property="category"    column="category"    />
+        <result property="extendedInformation"    column="extended_information"    />
+        <result property="company"    column="company"    />
+        <result property="purchasePrice"    column="purchase_price"    />
+        <result property="retailPrice"    column="retail_price"    />
+        <result property="salesPrice"    column="sales_price"    />
+        <result property="lowestSellingPrice"    column="lowest_selling_price"    />
+        <result property="state"    column="state"    />
+        <result property="serialNumber"    column="serial_number"    />
+        <result property="batchNo"    column="batch_no"    />
+    </resultMap>
+
+    <sql id="selectCommodityVo">
+        select id, bar_code, name, specifications, model, colour, category, extended_information, company, purchase_price, retail_price, sales_price, lowest_selling_price, state, serial_number, batch_no from t_commodity
+    </sql>
+
+    <select id="selectCommodityList" parameterType="Commodity" resultMap="CommodityResult">
+        <include refid="selectCommodityVo"/>
+        <where>  
+            <if test="barCode != null "> and bar_code = #{barCode}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="specifications != null  and specifications != ''"> and specifications = #{specifications}</if>
+            <if test="model != null  and model != ''"> and model = #{model}</if>
+            <if test="colour != null  and colour != ''"> and colour = #{colour}</if>
+            <if test="category != null  and category != ''"> and category = #{category}</if>
+            <if test="extendedInformation != null  and extendedInformation != ''"> and extended_information = #{extendedInformation}</if>
+            <if test="company != null  and company != ''"> and company = #{company}</if>
+            <if test="purchasePrice != null "> and purchase_price = #{purchasePrice}</if>
+            <if test="retailPrice != null "> and retail_price = #{retailPrice}</if>
+            <if test="salesPrice != null "> and sales_price = #{salesPrice}</if>
+            <if test="lowestSellingPrice != null "> and lowest_selling_price = #{lowestSellingPrice}</if>
+            <if test="state != null "> and state = #{state}</if>
+            <if test="serialNumber != null "> and serial_number = #{serialNumber}</if>
+            <if test="batchNo != null "> and batch_no = #{batchNo}</if>
+        </where>
+    </select>
+    
+    <select id="selectCommodityById" parameterType="Long" resultMap="CommodityResult">
+        <include refid="selectCommodityVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertCommodity" parameterType="Commodity" useGeneratedKeys="true" keyProperty="id">
+        insert into t_commodity
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="barCode != null">bar_code,</if>
+            <if test="name != null">name,</if>
+            <if test="specifications != null">specifications,</if>
+            <if test="model != null">model,</if>
+            <if test="colour != null">colour,</if>
+            <if test="category != null">category,</if>
+            <if test="extendedInformation != null">extended_information,</if>
+            <if test="company != null">company,</if>
+            <if test="purchasePrice != null">purchase_price,</if>
+            <if test="retailPrice != null">retail_price,</if>
+            <if test="salesPrice != null">sales_price,</if>
+            <if test="lowestSellingPrice != null">lowest_selling_price,</if>
+            <if test="state != null">state,</if>
+            <if test="serialNumber != null">serial_number,</if>
+            <if test="batchNo != null">batch_no,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="barCode != null">#{barCode},</if>
+            <if test="name != null">#{name},</if>
+            <if test="specifications != null">#{specifications},</if>
+            <if test="model != null">#{model},</if>
+            <if test="colour != null">#{colour},</if>
+            <if test="category != null">#{category},</if>
+            <if test="extendedInformation != null">#{extendedInformation},</if>
+            <if test="company != null">#{company},</if>
+            <if test="purchasePrice != null">#{purchasePrice},</if>
+            <if test="retailPrice != null">#{retailPrice},</if>
+            <if test="salesPrice != null">#{salesPrice},</if>
+            <if test="lowestSellingPrice != null">#{lowestSellingPrice},</if>
+            <if test="state != null">#{state},</if>
+            <if test="serialNumber != null">#{serialNumber},</if>
+            <if test="batchNo != null">#{batchNo},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCommodity" parameterType="Commodity">
+        update t_commodity
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="barCode != null">bar_code = #{barCode},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="specifications != null">specifications = #{specifications},</if>
+            <if test="model != null">model = #{model},</if>
+            <if test="colour != null">colour = #{colour},</if>
+            <if test="category != null">category = #{category},</if>
+            <if test="extendedInformation != null">extended_information = #{extendedInformation},</if>
+            <if test="company != null">company = #{company},</if>
+            <if test="purchasePrice != null">purchase_price = #{purchasePrice},</if>
+            <if test="retailPrice != null">retail_price = #{retailPrice},</if>
+            <if test="salesPrice != null">sales_price = #{salesPrice},</if>
+            <if test="lowestSellingPrice != null">lowest_selling_price = #{lowestSellingPrice},</if>
+            <if test="state != null">state = #{state},</if>
+            <if test="serialNumber != null">serial_number = #{serialNumber},</if>
+            <if test="batchNo != null">batch_no = #{batchNo},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCommodityById" parameterType="Long">
+        delete from t_commodity where id = #{id}
+    </delete>
+
+    <delete id="deleteCommodityByIds" parameterType="String">
+        delete from t_commodity where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

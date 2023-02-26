@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.data.mapper.SupplierMapper">
+    
+    <resultMap type="Supplier" id="SupplierResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="number"    column="number"    />
+        <result property="email"    column="email"    />
+        <result property="bankDeposit"    column="bank_deposit"    />
+        <result property="address"    column="address"    />
+        <result property="contacts"    column="contacts"    />
+        <result property="contactsTel"    column="contacts_tel"    />
+        <result property="Fax"    column="Fax"    />
+        <result property="accountNumber"    column="account_number"    />
+        <result property="remarks"    column="remarks"    />
+    </resultMap>
+
+    <sql id="selectSupplierVo">
+        select id, name, number, email, bank_deposit, address, contacts, contacts_tel, Fax, account_number, remarks from t_supplier
+    </sql>
+
+    <select id="selectSupplierList" parameterType="Supplier" resultMap="SupplierResult">
+        <include refid="selectSupplierVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="number != null "> and number = #{number}</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="bankDeposit != null  and bankDeposit != ''"> and bank_deposit = #{bankDeposit}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="contacts != null  and contacts != ''"> and contacts = #{contacts}</if>
+            <if test="contactsTel != null "> and contacts_tel = #{contactsTel}</if>
+            <if test="Fax != null  and Fax != ''"> and Fax = #{Fax}</if>
+            <if test="accountNumber != null  and accountNumber != ''"> and account_number = #{accountNumber}</if>
+            <if test="remarks != null  and remarks != ''"> and remarks = #{remarks}</if>
+        </where>
+    </select>
+    
+    <select id="selectSupplierById" parameterType="Long" resultMap="SupplierResult">
+        <include refid="selectSupplierVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSupplier" parameterType="Supplier" useGeneratedKeys="true" keyProperty="id">
+        insert into t_supplier
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="number != null">number,</if>
+            <if test="email != null">email,</if>
+            <if test="bankDeposit != null">bank_deposit,</if>
+            <if test="address != null">address,</if>
+            <if test="contacts != null">contacts,</if>
+            <if test="contactsTel != null">contacts_tel,</if>
+            <if test="Fax != null">Fax,</if>
+            <if test="accountNumber != null">account_number,</if>
+            <if test="remarks != null">remarks,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="number != null">#{number},</if>
+            <if test="email != null">#{email},</if>
+            <if test="bankDeposit != null">#{bankDeposit},</if>
+            <if test="address != null">#{address},</if>
+            <if test="contacts != null">#{contacts},</if>
+            <if test="contactsTel != null">#{contactsTel},</if>
+            <if test="Fax != null">#{Fax},</if>
+            <if test="accountNumber != null">#{accountNumber},</if>
+            <if test="remarks != null">#{remarks},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSupplier" parameterType="Supplier">
+        update t_supplier
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="number != null">number = #{number},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="bankDeposit != null">bank_deposit = #{bankDeposit},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="contacts != null">contacts = #{contacts},</if>
+            <if test="contactsTel != null">contacts_tel = #{contactsTel},</if>
+            <if test="Fax != null">Fax = #{Fax},</if>
+            <if test="accountNumber != null">account_number = #{accountNumber},</if>
+            <if test="remarks != null">remarks = #{remarks},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSupplierById" parameterType="Long">
+        delete from t_supplier where id = #{id}
+    </delete>
+
+    <delete id="deleteSupplierByIds" parameterType="String">
+        delete from t_supplier where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.eims.mapper.SalesOrderMapper">
+    
+    <resultMap type="SalesOrder" id="SalesOrderResult">
+        <result property="id"    column="id"    />
+        <result property="customerName"    column="customer_name"    />
+        <result property="number"    column="number"    />
+        <result property="information"    column="information"    />
+        <result property="documentDate"    column="document_date"    />
+        <result property="operator"    column="operator"    />
+        <result property="totalMoney"    column="total_money"    />
+        <result property="taxIncludedMoney"    column="tax_included_money"    />
+        <result property="deposit"    column="deposit"    />
+        <result property="state"    column="state"    />
+        <result property="procurementProgress"    column="procurement_progress"    />
+        <result property="remarks"    column="remarks"    />
+        <result property="preferentialRate"    column="preferential_rate"    />
+        <result property="collectionPreference"    column="collection_preference"    />
+        <result property="afterDiscountMoney"    column="after_discount_money"    />
+        <result property="settlementAccount"    column="settlement_account"    />
+        <result property="salesman"    column="salesman"    />
+    </resultMap>
+
+    <sql id="selectSalesOrderVo">
+        select id, customer_name, number, information, document_date, operator, total_money, tax_included_money, deposit, state, procurement_progress, remarks, preferential_rate, collection_preference, after_discount_money, settlement_account, salesman from t_sales_order
+    </sql>
+
+    <select id="selectSalesOrderList" parameterType="SalesOrder" resultMap="SalesOrderResult">
+        <include refid="selectSalesOrderVo"/>
+        <where>  
+            <if test="customerName != null  and customerName != ''"> and customer_name like concat('%', #{customerName}, '%')</if>
+            <if test="number != null  and number != ''"> and number = #{number}</if>
+            <if test="information != null  and information != ''"> and information = #{information}</if>
+            <if test="documentDate != null "> and document_date = #{documentDate}</if>
+            <if test="operator != null  and operator != ''"> and operator = #{operator}</if>
+            <if test="totalMoney != null "> and total_money = #{totalMoney}</if>
+            <if test="taxIncludedMoney != null "> and tax_included_money = #{taxIncludedMoney}</if>
+            <if test="deposit != null "> and deposit = #{deposit}</if>
+            <if test="state != null "> and state = #{state}</if>
+            <if test="procurementProgress != null "> and procurement_progress = #{procurementProgress}</if>
+            <if test="remarks != null  and remarks != ''"> and remarks = #{remarks}</if>
+            <if test="preferentialRate != null "> and preferential_rate = #{preferentialRate}</if>
+            <if test="collectionPreference != null "> and collection_preference = #{collectionPreference}</if>
+            <if test="afterDiscountMoney != null "> and after_discount_money = #{afterDiscountMoney}</if>
+            <if test="settlementAccount != null  and settlementAccount != ''"> and settlement_account = #{settlementAccount}</if>
+            <if test="salesman != null  and salesman != ''"> and salesman = #{salesman}</if>
+        </where>
+    </select>
+    
+    <select id="selectSalesOrderById" parameterType="Long" resultMap="SalesOrderResult">
+        <include refid="selectSalesOrderVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSalesOrder" parameterType="SalesOrder" useGeneratedKeys="true" keyProperty="id">
+        insert into t_sales_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerName != null">customer_name,</if>
+            <if test="number != null">number,</if>
+            <if test="information != null">information,</if>
+            <if test="documentDate != null">document_date,</if>
+            <if test="operator != null">operator,</if>
+            <if test="totalMoney != null">total_money,</if>
+            <if test="taxIncludedMoney != null">tax_included_money,</if>
+            <if test="deposit != null">deposit,</if>
+            <if test="state != null">state,</if>
+            <if test="procurementProgress != null">procurement_progress,</if>
+            <if test="remarks != null">remarks,</if>
+            <if test="preferentialRate != null">preferential_rate,</if>
+            <if test="collectionPreference != null">collection_preference,</if>
+            <if test="afterDiscountMoney != null">after_discount_money,</if>
+            <if test="settlementAccount != null">settlement_account,</if>
+            <if test="salesman != null">salesman,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerName != null">#{customerName},</if>
+            <if test="number != null">#{number},</if>
+            <if test="information != null">#{information},</if>
+            <if test="documentDate != null">#{documentDate},</if>
+            <if test="operator != null">#{operator},</if>
+            <if test="totalMoney != null">#{totalMoney},</if>
+            <if test="taxIncludedMoney != null">#{taxIncludedMoney},</if>
+            <if test="deposit != null">#{deposit},</if>
+            <if test="state != null">#{state},</if>
+            <if test="procurementProgress != null">#{procurementProgress},</if>
+            <if test="remarks != null">#{remarks},</if>
+            <if test="preferentialRate != null">#{preferentialRate},</if>
+            <if test="collectionPreference != null">#{collectionPreference},</if>
+            <if test="afterDiscountMoney != null">#{afterDiscountMoney},</if>
+            <if test="settlementAccount != null">#{settlementAccount},</if>
+            <if test="salesman != null">#{salesman},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSalesOrder" parameterType="SalesOrder">
+        update t_sales_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="customerName != null">customer_name = #{customerName},</if>
+            <if test="number != null">number = #{number},</if>
+            <if test="information != null">information = #{information},</if>
+            <if test="documentDate != null">document_date = #{documentDate},</if>
+            <if test="operator != null">operator = #{operator},</if>
+            <if test="totalMoney != null">total_money = #{totalMoney},</if>
+            <if test="taxIncludedMoney != null">tax_included_money = #{taxIncludedMoney},</if>
+            <if test="deposit != null">deposit = #{deposit},</if>
+            <if test="state != null">state = #{state},</if>
+            <if test="procurementProgress != null">procurement_progress = #{procurementProgress},</if>
+            <if test="remarks != null">remarks = #{remarks},</if>
+            <if test="preferentialRate != null">preferential_rate = #{preferentialRate},</if>
+            <if test="collectionPreference != null">collection_preference = #{collectionPreference},</if>
+            <if test="afterDiscountMoney != null">after_discount_money = #{afterDiscountMoney},</if>
+            <if test="settlementAccount != null">settlement_account = #{settlementAccount},</if>
+            <if test="salesman != null">salesman = #{salesman},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSalesOrderById" parameterType="Long">
+        delete from t_sales_order where id = #{id}
+    </delete>
+
+    <delete id="deleteSalesOrderByIds" parameterType="String">
+        delete from t_sales_order where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

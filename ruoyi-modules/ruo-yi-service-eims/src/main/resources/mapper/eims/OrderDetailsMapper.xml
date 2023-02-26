@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.eims.mapper.OrderDetailsMapper">
+    
+    <resultMap type="OrderDetails" id="OrderDetailsResult">
+        <result property="id"    column="id"    />
+        <result property="barCode"    column="bar_code"    />
+        <result property="name"    column="name"    />
+        <result property="specifications"    column="specifications"    />
+        <result property="model"    column="model"    />
+        <result property="colour"    column="colour"    />
+        <result property="category"    column="category"    />
+        <result property="company"    column="company"    />
+        <result property="purchasePrice"    column="purchase_price"    />
+        <result property="quantity"    column="quantity"    />
+        <result property="purchaseId"    column="purchase_id"    />
+    </resultMap>
+
+    <sql id="selectOrderDetailsVo">
+        select id, bar_code, name, specifications, model, colour, category, company, purchase_price, quantity, purchase_id from t_order_details
+    </sql>
+
+    <select id="selectOrderDetailsList" parameterType="OrderDetails" resultMap="OrderDetailsResult">
+        <include refid="selectOrderDetailsVo"/>
+        <where>  
+            <if test="barCode != null  and barCode != ''"> and bar_code = #{barCode}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="specifications != null  and specifications != ''"> and specifications = #{specifications}</if>
+            <if test="model != null  and model != ''"> and model = #{model}</if>
+            <if test="colour != null  and colour != ''"> and colour = #{colour}</if>
+            <if test="category != null  and category != ''"> and category = #{category}</if>
+            <if test="company != null  and company != ''"> and company = #{company}</if>
+            <if test="purchasePrice != null "> and purchase_price = #{purchasePrice}</if>
+            <if test="quantity != null "> and quantity = #{quantity}</if>
+            <if test="purchaseId != null  and purchaseId != ''"> and purchase_id = #{purchaseId}</if>
+        </where>
+    </select>
+    
+    <select id="selectOrderDetailsById" parameterType="Long" resultMap="OrderDetailsResult">
+        <include refid="selectOrderDetailsVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertOrderDetails" parameterType="OrderDetails" useGeneratedKeys="true" keyProperty="id">
+        insert into t_order_details
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="barCode != null">bar_code,</if>
+            <if test="name != null">name,</if>
+            <if test="specifications != null">specifications,</if>
+            <if test="model != null">model,</if>
+            <if test="colour != null">colour,</if>
+            <if test="category != null">category,</if>
+            <if test="company != null">company,</if>
+            <if test="purchasePrice != null">purchase_price,</if>
+            <if test="quantity != null">quantity,</if>
+            <if test="purchaseId != null">purchase_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="barCode != null">#{barCode},</if>
+            <if test="name != null">#{name},</if>
+            <if test="specifications != null">#{specifications},</if>
+            <if test="model != null">#{model},</if>
+            <if test="colour != null">#{colour},</if>
+            <if test="category != null">#{category},</if>
+            <if test="company != null">#{company},</if>
+            <if test="purchasePrice != null">#{purchasePrice},</if>
+            <if test="quantity != null">#{quantity},</if>
+            <if test="purchaseId != null">#{purchaseId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOrderDetails" parameterType="OrderDetails">
+        update t_order_details
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="barCode != null">bar_code = #{barCode},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="specifications != null">specifications = #{specifications},</if>
+            <if test="model != null">model = #{model},</if>
+            <if test="colour != null">colour = #{colour},</if>
+            <if test="category != null">category = #{category},</if>
+            <if test="company != null">company = #{company},</if>
+            <if test="purchasePrice != null">purchase_price = #{purchasePrice},</if>
+            <if test="quantity != null">quantity = #{quantity},</if>
+            <if test="purchaseId != null">purchase_id = #{purchaseId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOrderDetailsById" parameterType="Long">
+        delete from t_order_details where id = #{id}
+    </delete>
+
+    <delete id="deleteOrderDetailsByIds" parameterType="String">
+        delete from t_order_details where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+<!--    public List<OrderDetails> selectOrderDetailsByNumber(String str);-->
+    <select id="selectOrderDetailsByNumber" parameterType="OrderDetails" resultMap="OrderDetailsResult">
+        <include refid="selectOrderDetailsVo"/>
+        where purchase_id = #{str}
+    </select>
+</mapper>
