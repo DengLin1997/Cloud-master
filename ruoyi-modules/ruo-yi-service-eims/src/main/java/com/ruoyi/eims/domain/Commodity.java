@@ -79,6 +79,7 @@ public class Commodity extends BaseEntity
     @Excel(name = "批号")
     private Long batchNo;
     /** 库存 */
+    //@Excel(name = "库存")
 
     public void setId(Long id) 
     {
