@@ -27,4 +27,10 @@ public class test01 {
         List<SalesOrder> salesOrders = salesOrderMapper.selectSalesOrderList(null);
         System.out.println(salesOrders);
     }
+
+    @Test
+    public void test03(){
+        SalesOrder salesOrder = salesOrderMapper.selectSalesOrderById(1L);
+        System.out.println(salesOrder);
+    }
 }
