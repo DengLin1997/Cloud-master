@@ -23,14 +23,19 @@ public class test01 {
     }
 
     @Test
-    public void test02(){
+    public void test02() {
         List<SalesOrder> salesOrders = salesOrderMapper.selectSalesOrderList(null);
         System.out.println(salesOrders);
     }
 
     @Test
-    public void test03(){
+    public void test03() {
         SalesOrder salesOrder = salesOrderMapper.selectSalesOrderById(1L);
         System.out.println(salesOrder);
+    }
+
+    @Test
+    public void test04() {
+        SalesOrder salesOrder = new SalesOrder();
     }
 }
