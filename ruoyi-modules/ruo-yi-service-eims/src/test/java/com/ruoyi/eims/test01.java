@@ -38,4 +38,9 @@ public class test01 {
     public void test04() {
         SalesOrder salesOrder = new SalesOrder();
     }
+
+    @Test
+    public void test05() {
+        SalesOrder salesOrder = new SalesOrder();
+    }
 }
