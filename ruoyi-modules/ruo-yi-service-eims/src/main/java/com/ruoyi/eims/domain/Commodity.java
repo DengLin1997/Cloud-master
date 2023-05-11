@@ -82,6 +82,10 @@ public class Commodity extends BaseEntity
     //@Excel(name = "库存")
     private Long stock;
 
+    /** 库存 */
+    @Excel(name = "库存")
+    private Long stock;
+
     public void setId(Long id) 
     {
         this.id = id;
