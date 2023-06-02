@@ -254,6 +254,7 @@ public class Commodity extends BaseEntity
             .append("state", getState())
             .append("serialNumber", getSerialNumber())
             .append("batchNo", getBatchNo())
+            .append("stock", getStock())
             .toString();
     }
 }
