@@ -81,6 +81,9 @@ public class Commodity extends BaseEntity
     /** 库存 */
     //@Excel(name = "库存")
     private Long stock;
+    /** 备注 */
+    @Excel(name = "备注")
+    private String remarks;
 
     public Long getStock() {
         return stock;
